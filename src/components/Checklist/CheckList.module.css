@@ -1,0 +1,68 @@
+.listItem {
+    width: 100%;
+    position: relative;
+    /* padding: 1rem; */
+    /* border-radius: 12px; */
+    /* border: 1px solid #E2E2E2; */
+}
+
+.listItem input{
+    padding: 0.7rem;
+    /* padding: 1rem; */
+    border-radius: 12px;
+    border: 1px solid #E2E2E2;
+    width: 100%;
+    outline: none;
+    float: right;
+    padding-left: 7%;
+}
+
+.listItem input::placeholder{
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 16px;
+    color: #828282;
+}
+
+.checkListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.img {
+    position: absolute;
+    right: 2%;
+    top: 21%;
+    cursor: pointer;
+}
+
+/* ////check////// */
+
+.checkContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 10%;
+    padding-right: 1rem;
+    position: absolute;
+    left: 0%;
+}
+
+.check {
+    height: 50%;
+    width: 50%;
+    /* background-color: blue; */
+    border: 2px solid #E2E2E2;
+    border-radius: 6px; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute; */
+    /* top: 35%; */
+    /* left: 0.5rem; */
+    /* padding-right: 1rem; */
+    /* margin-right: 1rem; */
+}

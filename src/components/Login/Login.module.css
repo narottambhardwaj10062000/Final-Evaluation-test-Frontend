@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 70%;
+}
+
+.input {
+    width: 100%;
+    padding: 1rem;
+    border: 1.38px solid #D0D0D0;
+    border-radius: 11.03px;
+    float: right;
+    outline: none;
+    padding-left: 3rem;
+}
+
+.inputContainer {
+    width: 100%;
+    position: relative;
+}
+
+.iconContainer {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 0.5rem;
+}
+
+.icon {
+    width: 29.5px;
+    height: 29.5px;
+}
+
+p {
+    color: #828282;
+    font-family: Open Sans;
+}

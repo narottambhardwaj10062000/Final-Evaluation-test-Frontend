@@ -1,0 +1,32 @@
+.container {
+    width: 360px;
+    height: 100%;
+    background-color: #EEF2F5;
+    border-radius: 10px;
+    padding: 0.8rem;
+}
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0rem 1.5rem 0rem;
+}
+
+.headerContainer p {
+    fonat-family: Poppins;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000000;
+}
+
+.iconContainer {
+    display: flex;
+    gap: 1rem;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}

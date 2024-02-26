@@ -108,20 +108,24 @@ const DashBoard = () => {
         </div>
 
         {/* -----------------Logout---------------------- */}
-        <div className={styles.logoutContainer} onClick={() => setShowLogoutModal(true)}>
+        <div
+          className={styles.logoutContainer}
+          onClick={() => setShowLogoutModal(true)}
+        >
           <img src={logoutIcon} alt="logout-icon" />
           <p>Log out</p>
         </div>
-
       </div>
       {/* ----------------------Right Container---------------------- */}
       <div className={styles.rightContainer}>
         {/* -------------------Upper Container--------------- */}
         <div className={styles.upperContainer}>
           <div className={styles.welcomeBoard}>
-            {
-                userName === null ? "" : <h3>Welcome! {userName.split(" ")[0]}</h3>
-            }
+            {userName === null ? (
+              ""
+            ) : (
+              <h3>Welcome! {userName.split(" ")[0]}</h3>
+            )}
             <h4>Board</h4>
           </div>
 
@@ -157,7 +161,9 @@ const DashBoard = () => {
         </div>
       </div>
       {/* logOut Modal */}
-      {showLogoutModal && <LogoutPage setShowLogoutModal={setShowLogoutModal} />}
+      {showLogoutModal && (
+        <LogoutPage setShowLogoutModal={setShowLogoutModal} />
+      )}
     </div>
   );
 };

@@ -1,26 +1,41 @@
-import styles from "./CheckList.module.css";
+import styles from "./EditChecklist.module.css";
 import Button from "../Button/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteIcon from "../../assets/Icons/DeleteIcon.png";
 import tickIcon from "../../assets/Icons/tickIcon.png";
 import { useTaskContext } from "../../contexts/TaskContext";
 
-const CheckList = () => {
+const CheckList = ({ prevChecklist }) => {
   
-  const { checkListArray, setCheckListArray} = useTaskContext();
+  const { editedChecklist, setEditedCheckList} = useTaskContext();
+//   console.log(prevChecklist);
+  const reqArray = prevChecklist.map((currItem) => {
+    return { body: currItem.body, isCompleted: currItem.isCompleted };
+  });
 
-  console.log(checkListArray);
+  useEffect(() => {
+    setEditedCheckList(reqArray);
+  }, [])
+  
+//   const [editedChecklist , setEditedCheckList] = useState(reqArray);
+//   console.log(reqArray);
+
+  console.log(editedChecklist);
 
   //function to add a new checkList Item
   const addNewItem = () => {
-    setCheckListArray((prev) => {
-      return [...prev, { body: "", isCompleted: false }];
-    });
+    // setCheckListArray((prev) => {
+    //   return [...prev, { body: "", isCompleted: false }];
+    // });
+
+    setEditedCheckList((prev) => {
+        return [...prev, { body: "", isCompleted: false }];
+    })
   };
 
   //handleDelete Function
   const handleDeleteItem = (index) => {
-    setCheckListArray((prev) => {
+    setEditedCheckList((prev) => {
       const tempState = prev.filter((currItem, idx) => index !== idx);
       return tempState;
     });
@@ -28,25 +43,25 @@ const CheckList = () => {
 
   //handleChange Function
   const handleChange = (event, index) => {
-    const tempState = checkListArray.map((currItem, idx) =>
+    const tempState = editedChecklist.map((currItem, idx) =>
       idx === index
         ? { body: event.target.value, isCompleted: currItem.isCompleted }
         : currItem
     );
-    setCheckListArray(tempState);
+    setEditedCheckList(tempState);
   };
 
   //handleChecked Function
   const handleChecked = (index) => {
-    const tempState = checkListArray.map((currItem, idx) =>
+    const tempState = editedChecklist.map((currItem, idx) =>
       idx === index
         ? { body: currItem.body, isCompleted: !currItem.isCompleted }
         : currItem
     );
-    setCheckListArray(tempState);
+    setEditedCheckList(tempState);
   };
 
-  const ShowAllCheckListItems = checkListArray.map((currItem, index) => {
+  const ShowAllCheckListItems = editedChecklist.map((currItem, index) => {
     return (
       <div key={index} className={styles.listItem}>
         <div className={styles.checkContainer}>

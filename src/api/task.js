@@ -3,11 +3,12 @@ import axios from "axios";
 const backend_Url = "http://localhost:7000/api/v1";
 
 //Handling create task API
-export const createNewTask = async ({ title, priority, dueDate }) => {
+export const createNewTask = async ({ title, checkListArray, priority, dueDate }) => {
   try {
+    const checkList = checkListArray;
     const reqUrl = `${backend_Url}/task/create`;
-    const reqPayload = { title, priority, dueDate };
-
+    const reqPayload = { title, checkList, priority, dueDate };
+    
     //setting header
     const token = JSON.parse(localStorage.getItem("Token"));
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -23,7 +24,7 @@ export const createNewTask = async ({ title, priority, dueDate }) => {
 //Getting all tasks from backend
 export const getTasksList = async ( selectedOption ) => {
   try {
-    console.log(selectedOption);
+    // console.log(selectedOption);
     const reqUrl = `${backend_Url}/task/all?filter=${selectedOption}`;
     const response = await axios.get(reqUrl);
     return response.data;
@@ -36,12 +37,13 @@ export const getTasksList = async ( selectedOption ) => {
 export const EditTask = async ({
   taskId,
   editTitle,
+  editedChecklist,
   editDueDate,
   editPriority,
 }) => {
   try {
     const reqUrl = `${backend_Url}/task/edit/${taskId}`;
-    const reqPayload = { editTitle, editDueDate, editPriority };
+    const reqPayload = { editTitle, editedChecklist, editDueDate, editPriority };
 
     //setting header
     const token = JSON.parse(localStorage.getItem("Token"));

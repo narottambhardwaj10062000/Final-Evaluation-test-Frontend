@@ -11,18 +11,18 @@ const CreateTask = ({ setShowModal }) => {
   const [title, setTitle] = useState("");
 
   //getting required data from task Context
-  const { fetchData } = useTaskContext();
+  const { fetchData, checkListArray } = useTaskContext();
 
   //Function to add task
   const handleCreateTask = async () => {
     //validation
-    if (!title || !dueDate || !priority) {
+    if (!title || !dueDate || !priority || !checkListArray) {
       alert("please fill in all the fields");
       return;
     }
 
     //calling create API
-    const response = await createNewTask({ title, priority, dueDate });
+    const response = await createNewTask({ title, checkListArray, priority, dueDate });
 
     // console.log(response.data);
     //Success Message on task addition

@@ -12,9 +12,14 @@ export const TaskContextProvider = ({ children }) => {
   const [formattedDate, setFormattedDate] = useState("");
 
   const [selectedOption, setSelectedOption] = useState("This Week");
+
+  const [checkListArray, setCheckListArray] = useState([]);
+
+  const [editedChecklist , setEditedCheckList] = useState([]);
   // console.log(CurrentDate);
   // console.log(formattedDate);
-  console.log(selectedOption);
+  // console.log(selectedOption);
+  // console.log(allTasks);
 
   // FormatDate(CurrentDate);
 
@@ -49,6 +54,10 @@ export const TaskContextProvider = ({ children }) => {
         formattedDate,
         selectedOption,
         setSelectedOption,
+        checkListArray,
+        setCheckListArray,
+        editedChecklist,
+        setEditedCheckList
       }}
     >
       {children}

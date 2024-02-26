@@ -6,10 +6,20 @@ import EditTaskPage from "../../Pages/EditTaskPage/EditTaskPage";
 import { deleteTask } from "../../api/task";
 import { updateStatus } from "../../api/task";
 import { useTaskContext } from "../../contexts/TaskContext";
+import { FaCheckDouble } from "react-icons/fa6";
 
-const Card = ({ _id, title, priority, dueDate, status, statusName }) => {
+const Card = ({
+  _id,
+  title,
+  checkList,
+  priority,
+  dueDate,
+  status,
+  statusName,
+}) => {
   // console.log(statusName);
   // console.log(title, priority, dueDate, status);
+  // console.log(checkList);
   const [menuToggle, setMenuToggle] = useState(false);
 
   const taskId = _id;
@@ -67,7 +77,6 @@ const Card = ({ _id, title, priority, dueDate, status, statusName }) => {
     }
   };
 
-
   return (
     <div className={styles.container}>
       <div className={styles.priorityDropdown}>
@@ -101,12 +110,25 @@ const Card = ({ _id, title, priority, dueDate, status, statusName }) => {
 
       <p className={styles.title}>{title}</p>
 
-      {/* Here i will write a dropdown menu  */}
-      <select>
+      {/* listing all checklist */}
+      <div className={styles.checkListContainer}>
+        <div className={styles.checklistCount}>Checklist (1/3)</div>
+        {checkList.map((currItem) => {
+          const IsCompleted = currItem.isCompleted;
+          return (
+            <label className={styles.checklist}>
+              <input type="checkbox" value={currItem.isCompleted} checked={IsCompleted} />
+              <span>{currItem.body}</span>
+            </label>
+          );
+        })}
+      </div>
+
+      {/* <select>
         <option>Task to be done</option>
         <option>Task to be done</option>
         <option>Task has been done</option>
-      </select>
+      </select> */}
 
       <div className={styles.btnContainer}>
         <Button
@@ -211,7 +233,7 @@ const Card = ({ _id, title, priority, dueDate, status, statusName }) => {
       {/* modal */}
       {showModal && (
         <EditTaskPage
-          prefillData={{ _id, title, priority, dueDate, status }}
+          prefillData={{ _id, title, checkList, priority, dueDate, status }}
           setShowModal={setShowModal}
         />
       )}

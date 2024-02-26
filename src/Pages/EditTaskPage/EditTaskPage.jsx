@@ -4,22 +4,29 @@ import Button from "../../components/Button/Button";
 import CheckList from "../../components/Checklist/CheckList";
 import { EditTask } from "../../api/task";
 import { useTaskContext } from "../../contexts/TaskContext";
+import EditCheckList from "../../components/EditChecklist/EditChecklist";
 
 const EditTaskPage = ({ setShowModal, prefillData }) => {
-  const { _id, title, priority, dueDate, status } = prefillData;
+  const { _id, title, checkList, priority, dueDate, status } = prefillData;
   const taskId = _id;
+
+  // const { fetchData, checkListArray } = useTaskContext();
+  // console.log(checkList);
+  const { fetchData, editedChecklist } = useTaskContext();
 
   const [editPriority, setEditPriority] = useState(priority);
   const [editDueDate, setEditDueDate] = useState(dueDate);
   const [editTitle, setEditTitle] = useState(title);
+  const [editCheckList, setEditCheckList] = useState(checkList);
+  // const [editCheckList, setEditCheckList] = useState();
 
-  const { fetchData } = useTaskContext();
   //   console.log(prefillData);
 
   const handleEditTask = async () => {
     const response = await EditTask({
       taskId,
       editTitle,
+      editedChecklist,
       editPriority,
       editDueDate,
     });
@@ -30,22 +37,6 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
       setShowModal(false);
     }
   };
-  //function to handle Edit
-  //   const handleEdit = () => {
-  //validation
-  // if( !title || !dueDate || !priority ) {
-  //     alert("please fill in all the fields");
-  //     return;
-  // }
-  //calling create API
-  // const response = await createNewTask({ title, priority, dueDate });
-
-  // console.log(response.data);
-  //Success Message on task addition
-  // if( response ) {
-  //   alert("Task Added Successfully");
-  //   setShowModal(false);
-  // }
 
   return (
     <>
@@ -92,7 +83,24 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
             LOW PRIORITY
           </div>
           {/* --------------------------CheckList-------------------------------- */}
-          <CheckList />
+          {/* <div className={styles.checkListContainer}>
+            {ShowAllCheckListItems}
+
+            <Button
+              style={{
+                fontFamily: "Inter",
+                fontWeight: "500",
+                fontSize: "16px",
+                color: "#767575",
+                cursor: "pointer",
+              }}
+              onClick={addNewItem}
+            >
+              + Add New
+            </Button>
+          </div> */}
+
+          <EditCheckList prevChecklist = {checkList} />
         </div>
 
         {/* -------------------------Buttons------------------------------------- */}

@@ -1,5 +1,5 @@
 .container {
-    width: 360px;
+    min-width: 360px;
     height: 100%;
     background-color: #EEF2F5;
     border-radius: 10px;
@@ -29,4 +29,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
+    max-height: 513.3px;
+    overflow: auto;
 }

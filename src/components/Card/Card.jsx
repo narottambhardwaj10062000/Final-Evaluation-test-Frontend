@@ -1,12 +1,15 @@
 import styles from "./Card.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import { BsLock, BsThreeDots } from "react-icons/bs";
 import EditTaskPage from "../../Pages/EditTaskPage/EditTaskPage";
 import { deleteTask } from "../../api/task";
-import { updateStatus } from "../../api/task";
+import { updateStatus, handleChangeCheckList } from "../../api/task";
 import { useTaskContext } from "../../contexts/TaskContext";
-import { FaCheckDouble } from "react-icons/fa6";
+import { compareDueDate } from "../../Helpers/compareDueDate";
+import { FormatDueDate } from "../../Helpers/FormatDate";
+import DeleteModal from "../../Pages/DeleteModal/DeleteModal";
+import CardCheckList from "../CardChecklist/CardCheckList";
 
 const Card = ({
   _id,
@@ -17,25 +20,65 @@ const Card = ({
   status,
   statusName,
 }) => {
-  // console.log(statusName);
-  // console.log(title, priority, dueDate, status);
-  // console.log(checkList);
+  const [dueDateColor, setDueDateColor] = useState("");
+  const [requiredDueDate, setRequiredDueDate] = useState("");
   const [menuToggle, setMenuToggle] = useState(false);
-
+  const [showModal, setShowModal] = useState(false); //imp
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { fetchData } = useTaskContext();
   const taskId = _id;
 
-  const [showModal, setShowModal] = useState(false); //imp
+  // console.log(checkList);
 
-  //getting required data from task context
-  const { fetchData } = useTaskContext();
+  const reqStyle = {
+    display: "block",
+    backgroundColor: "#EEECEC",
+    fontFamily: "Poppins",
+    fontSize: "8px",
+    fontWeight: "500",
+    color: "#767575",
+    padding: "5px 10px 5px 10px",
+    borderRadius: "8px",
+    cursor: "pointer",
+  };
+                                                        // yha change kiye h due date handling ke liye
+  if(dueDate) {
+    useEffect(() => {
+      const date = new Date();
+      const colorVal = compareDueDate(date, dueDate, status);      
+  
+      const dueDateArray = dueDate.split("-").reverse();
+      const dueDay = dueDateArray[0];
+      const dueMonth = Number(dueDateArray[1]) - 1;
+  
+      const dueDateVal = FormatDueDate(dueDay, dueMonth);
+      setRequiredDueDate(dueDateVal);
+      setDueDateColor(colorVal);
+    }, []);
+  }
 
-  //handling my delete function
-  const handleDelete = async () => {
-    const response = await deleteTask(taskId);
-    if (response) {
-      // alert(" task has been successfully deleted" );
-      fetchData();
-    }
+  //total checklist count
+  // const totalChecklistCount = checkList.length;
+
+  //total completed checklist count
+  // const totalChecklistCompleted = checkList.filter(
+  //   (currItem) => currItem.isCompleted === true
+  // ).length;
+
+  // console.log(collapseAll);
+
+  //handling delete function
+  // const handleDelete = async () => {
+  //   const response = await deleteTask(taskId);
+  //   if (response) {
+  //     // alert(" task has been successfully deleted" );
+  //     fetchData();
+  //   }
+  // };
+
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+    setMenuToggle(false);
   };
 
   //function to handle status change Backlog
@@ -43,7 +86,6 @@ const Card = ({
     const response = await updateStatus(taskId, "backlog");
 
     if (response) {
-      // alert("status has been updated");
       fetchData();
     }
   };
@@ -53,7 +95,6 @@ const Card = ({
     const response = await updateStatus(taskId, "progress");
 
     if (response) {
-      // alert("status has been updated");
       fetchData();
     }
   };
@@ -63,7 +104,6 @@ const Card = ({
     const response = await updateStatus(taskId, "done");
 
     if (response) {
-      // alert("status has been updated");
       fetchData();
     }
   };
@@ -72,15 +112,36 @@ const Card = ({
     const response = await updateStatus(taskId, "todo");
 
     if (response) {
-      // alert("status has been updated");
       fetchData();
     }
   };
 
+  //******************************* */
+  // const myFun = () => {
+  //   setChecklistToggle(!checklistToggle);
+  // };
+
+  // *******************************
+
   return (
     <div className={styles.container}>
       <div className={styles.priorityDropdown}>
-        <p>{priority}</p>
+        <div className={styles.priorityContainer}>
+          <div
+            className={styles.circle}
+            style={
+              priority === "Low Priority"
+                ? { backgroundColor: "#63C05B" }
+                : priority === "Moderate Priority"
+                ? { backgroundColor: "#18B0FF" }
+                : priority === "High Priority"
+                ? { backgroundColor: "#FF2473" }
+                : null
+            }
+          ></div>
+          <p>{priority}</p>
+        </div>
+
         <BsThreeDots
           style={{ cursor: "pointer" }}
           onClick={() => setMenuToggle(!menuToggle)}
@@ -95,11 +156,14 @@ const Card = ({
           style={{ cursor: "pointer" }}
           onClick={() => {
             setShowModal(true);
+            setMenuToggle(false);
           }}
         >
           Edit
         </Button>
+
         <Button style={{ cursor: "pointer" }}>Share</Button>
+
         <Button
           style={{ color: "#CF3636", cursor: "pointer" }}
           onClick={handleDelete}
@@ -110,30 +174,14 @@ const Card = ({
 
       <p className={styles.title}>{title}</p>
 
-      {/* listing all checklist */}
-      <div className={styles.checkListContainer}>
-        <div className={styles.checklistCount}>Checklist (1/3)</div>
-        {checkList.map((currItem) => {
-          const IsCompleted = currItem.isCompleted;
-          return (
-            <label className={styles.checklist}>
-              <input type="checkbox" value={currItem.isCompleted} checked={IsCompleted} />
-              <span>{currItem.body}</span>
-            </label>
-          );
-        })}
-      </div>
+                                            {/* listing all checklist */}
+      <CardCheckList checkList={checkList} _id={_id} />                                              
 
-      {/* <select>
-        <option>Task to be done</option>
-        <option>Task to be done</option>
-        <option>Task has been done</option>
-      </select> */}
-
+      
       <div className={styles.btnContainer}>
         <Button
           style={{
-            backgroundColor: "#CF3636",
+            backgroundColor: dueDateColor,
             fontFamily: "Poppins",
             fontSize: "8px",
             fontWeight: "500",
@@ -143,99 +191,51 @@ const Card = ({
             cursor: "pointer",
           }}
         >
-          {dueDate}
+          {requiredDueDate}
         </Button>
 
         <div className={styles.threeBtn}>
           <Button
-            style={
-              statusName === "backlog"
-                ? { display: "none" }
-                : {
-                    display: "block",
-                    backgroundColor: "#EEECEC",
-                    fontFamily: "Poppins",
-                    fontSize: "8px",
-                    fontWeight: "500",
-                    color: "#767575",
-                    padding: "5px 10px 5px 10px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }
-            }
+            style={statusName === "backlog" ? { display: "none" } : reqStyle}
             onClick={handleChangeStatusBacklog}
           >
             BACKLOG
           </Button>
 
           <Button
-            style={
-              statusName === "todo"
-                ? { display: "none" }
-                : {
-                    display: "block",
-                    backgroundColor: "#EEECEC",
-                    fontFamily: "Poppins",
-                    fontSize: "8px",
-                    fontWeight: "500",
-                    color: "#767575",
-                    padding: "5px 10px 5px 10px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }
-            }
+            style={statusName === "todo" ? { display: "none" } : reqStyle}
             onClick={handleChangeStatusTodo}
           >
             TO-DO
           </Button>
 
           <Button
-            style={
-              statusName === "progress"
-                ? { display: "none" }
-                : {
-                    backgroundColor: "#EEECEC",
-                    fontFamily: "Poppins",
-                    fontSize: "8px",
-                    fontWeight: "500",
-                    color: "#767575",
-                    padding: "5px 10px 5px 10px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }
-            }
+            style={statusName === "progress" ? { display: "none" } : reqStyle}
             onClick={handleChangeStatusProgress}
           >
             PROGRESS
           </Button>
 
           <Button
-            style={
-              statusName === "done"
-                ? { display: "none" }
-                : {
-                    backgroundColor: "#EEECEC",
-                    fontFamily: "Poppins",
-                    fontSize: "8px",
-                    fontWeight: "500",
-                    color: "#767575",
-                    padding: "5px 10px 5px 10px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }
-            }
+            style={statusName === "done" ? { display: "none" } : reqStyle}
             onClick={handleChangeStatusDone}
           >
             DONE
           </Button>
         </div>
       </div>
-      {/* modal */}
+
+      {/* Edit Modal */}
       {showModal && (
         <EditTaskPage
           prefillData={{ _id, title, checkList, priority, dueDate, status }}
           setShowModal={setShowModal}
         />
+      )}
+
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <DeleteModal setShowDeleteModal={setShowDeleteModal} taskId={taskId} />
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import styles from "./Register.module.css";
+import styles from "./Registerxx.module.css";
 import React, { useState } from "react";
 import Button from "../Button/Button";
 import profileImg from "../../assets/Icons/Profile.png";

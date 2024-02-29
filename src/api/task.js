@@ -17,7 +17,8 @@ export const createNewTask = async ({ title, checkListArray, priority, dueDate }
     return response;
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    
   }
 };
 
@@ -26,8 +27,13 @@ export const getTasksList = async ( selectedOption ) => {
   try {
     // console.log(selectedOption);
     const reqUrl = `${backend_Url}/task/all?filter=${selectedOption}`;
+
+    const token = JSON.parse(localStorage.getItem("Token"));
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
     const response = await axios.get(reqUrl);
     return response.data;
+    
   } catch (error) {
     console.log(error);
   }
@@ -87,3 +93,15 @@ export const updateStatus = async (taskId, status) => {
     console.log(error);
   }
 };
+
+//updating checkbox from board page
+export const handleChangeCheckList = async(taskId, checkboxId, state) => {
+  try {
+    const reqUrl = `${backend_Url}/task/updatecheckbox/${taskId}?checkboxId=${checkboxId}`;
+    const reqPayload = {state};
+    const response = await axios.put(reqUrl, reqPayload);
+    return response;
+  } catch ( error ) {
+    console.log(error);
+  }
+}

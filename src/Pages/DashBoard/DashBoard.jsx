@@ -14,11 +14,11 @@ import { useTaskContext } from "../../contexts/TaskContext";
 import LogoutPage from "../LogoutPage/LogoutPage";
 
 const DashBoard = () => {
-  const [backlog, setBacklog] = useState([]);
-  //   const [allTasks, setAllTasks] = useState([]);
-  const [todo, setTodo] = useState([]);
-  const [inProgress, setInProgress] = useState([]);
-  const [done, setDone] = useState([]);
+  // const [backlog, setBacklog] = useState([]);
+  // //   const [allTasks, setAllTasks] = useState([]);
+  // const [todo, setTodo] = useState([]);
+  // const [inProgress, setInProgress] = useState([]);
+  // const [done, setDone] = useState([]);
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -33,34 +33,42 @@ const DashBoard = () => {
     formattedDate,
     selectedOption,
     setSelectedOption,
+    todo,
+    setTodo,
+    inProgress,
+    setInProgress,
+    backlog,
+    setBacklog,
+    done,
+    setDone
   } = useTaskContext();
 
   //   console.log(allTasks);
   //   console.log(typeof allTasks);
   //   console.log(todo);
 
-  const setValue = () => {
-    const todoVal = allTasks.filter((currTask) => {
-      return currTask.status === "todo";
-    });
+  // const setValue = () => {
+  //   const todoVal = allTasks.filter((currTask) => {
+  //     return currTask.status === "todo";
+  //   });
 
-    const backlogVal = allTasks.filter((currTask) => {
-      return currTask.status === "backlog";
-    });
+  //   const backlogVal = allTasks.filter((currTask) => {
+  //     return currTask.status === "backlog";
+  //   });
 
-    const progressVal = allTasks.filter((currTask) => {
-      return currTask.status === "progress";
-    });
+  //   const progressVal = allTasks.filter((currTask) => {
+  //     return currTask.status === "progress";
+  //   });
 
-    const doneVal = allTasks.filter((currTask) => {
-      return currTask.status === "done";
-    });
+  //   const doneVal = allTasks.filter((currTask) => {
+  //     return currTask.status === "done";
+  //   });
 
-    setTodo(todoVal);
-    setBacklog(backlogVal);
-    setInProgress(progressVal);
-    setDone(doneVal);
-  };
+  //   setTodo(todoVal);
+  //   setBacklog(backlogVal);
+  //   setInProgress(progressVal);
+  //   setDone(doneVal);
+  // };
 
   //function to handle filter dropdown
   const handleSelectChange = (event) => {
@@ -71,9 +79,9 @@ const DashBoard = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    setValue();
-  }, [allTasks]);
+  // useEffect(() => {
+  //   setValue();
+  // }, [allTasks]);
 
   return (
     <div className={styles.container}>

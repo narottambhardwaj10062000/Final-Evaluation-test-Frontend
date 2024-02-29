@@ -1,29 +1,27 @@
-import styles from "./LogoutPage.module.css";
+import styles from "./DeleteModal.module.css";
 import React from 'react'
 import Button from "../../components/Button/Button";
-import { useNavigate } from "react-router-dom";
+import { deleteTask } from "../../api/task";
 import { useTaskContext } from "../../contexts/TaskContext";
 
+const DeleteModal = ({ setShowDeleteModal, taskId }) => {
 
-const LogoutPage = ({ setShowLogoutModal }) => {
+    const { fetchData } = useTaskContext();
 
-    // const { setAllTasks } = useTaskContext();
-
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        localStorage.removeItem("Name");
-        localStorage.removeItem("Token");
-        setShowLogoutModal(false);
-        // setAllTasks([]);
-        navigate("/login");
+//   handling delete function
+  const handleDeleteCard = async () => {
+    const response = await deleteTask(taskId);
+    if (response) {
+      fetchData();
+      setShowDeleteModal(false);
     }
+  };
 
   return (
-    <>
-       <div className={styles.wrapper}></div>
-       <div className={styles.container}>
-          <p>Are you sure you want to Logout?</p>
+   <>
+     <div className={styles.wrapper}></div>
+     <div className={styles.container}>
+          <p>Are you sure you want to Delete?</p>
           <div className={styles.buttons}>
             <Button
                 style={{
@@ -41,9 +39,9 @@ const LogoutPage = ({ setShowLogoutModal }) => {
                     cursor: "pointer"
                 }}
 
-                onClick={ handleLogout }
+                onClick={ handleDeleteCard }
             >
-                Yes, Logout
+                Yes, Delete
             </Button>
 
             <Button
@@ -62,14 +60,15 @@ const LogoutPage = ({ setShowLogoutModal }) => {
                     cursor: "pointer"
                 }}
 
-                onClick={ () => setShowLogoutModal(false) }
+                onClick={ () => setShowDeleteModal(false) }
             >
                 Cancel
             </Button>
           </div>
        </div>
-    </>
+   </>
+
   )
 }
 
-export default LogoutPage
+export default DeleteModal

@@ -1,0 +1,22 @@
+.settingContainer{
+    margin: 10px;
+}
+.settingHeader{
+    font-size: 25px;
+    font-weight: 500;
+}
+.settingForm{
+    margin-top: 30px;
+    width: 400px;
+}
+
+.settingForm button{
+    border-radius: 20px;
+    color: white;
+    background: #17a2b8;
+    width: 400px;
+    padding: 12px 0;
+    border: 0;
+    font-size: 15px;
+    cursor: pointer;
+}

@@ -1,37 +1,97 @@
 import styles from "./CreateTask.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import CheckList from "../../components/Checklist/CheckList";
 import { createNewTask } from "../../api/task";
 import { useTaskContext } from "../../contexts/TaskContext";
+import { showSlashFormatDueDate } from "../../Helpers/FormatDate";
+import { useSnackbar } from "notistack";
 
 const CreateTask = ({ setShowModal }) => {
+
+  const {enqueueSnackbar} = useSnackbar();
   const [priority, setPriority] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [title, setTitle] = useState("");
+  const [slashDueDate, setSlashDueDate] = useState("");
+
+  useEffect(() => {
+    const val = showSlashFormatDueDate(dueDate);
+    setSlashDueDate(val);
+  }, [dueDate]);
 
   //getting required data from task Context
-  const { fetchData, checkListArray } = useTaskContext();
+  const { fetchData, checkListArray, setCheckListArray } = useTaskContext();
+
+  //Function to handle Cancel
+  const handleCancel = () => {
+    setCheckListArray([]);
+    setShowModal(false);
+  };
 
   //Function to add task
   const handleCreateTask = async () => {
     //validation
-    if (!title || !dueDate || !priority || !checkListArray) {
-      alert("please fill in all the fields");
+    if (!title || !priority) {
+      enqueueSnackbar("Please fill in all mandatory fields");
       return;
     }
 
+    if (checkListArray.length === 0) {
+      enqueueSnackbar("CheckList is a mandatory field");
+      return;
+    }
+
+    if (checkListArray.length > 0) {
+      const emptyCheckListArray = checkListArray.filter(
+        (currItem) => currItem.body === ""
+      );
+      if (emptyCheckListArray.length > 0) {
+        enqueueSnackbar("CheckLists cant be empty");
+        return;
+      }
+    }
+
     //calling create API
-    const response = await createNewTask({ title, checkListArray, priority, dueDate });
+
+    if (dueDate) {
+      const response = await createNewTask({
+        title,
+        checkListArray,
+        priority,
+        dueDate,
+      });
+
+      if (response) {
+        //task added successfully
+        enqueueSnackbar("Task Added Successfully");
+        fetchData();
+        setCheckListArray([]);
+        setShowModal(false);
+      }
+    }
+
+    if( dueDate === "") {
+      const response = await createNewTask({
+        title,
+        checkListArray,
+        priority,
+      });
+
+      if (response) {
+        // alert("Task Added Successfully");
+        enqueueSnackbar("Task Added Successfully");
+        fetchData();
+        setCheckListArray([]);
+        setShowModal(false);
+      }
+    }
+    
 
     // console.log(response.data);
     //Success Message on task addition
-    if (response) {
-      // alert("Task Added Successfully");
-      fetchData();
-      setShowModal(false);
-    }
-  };
+    
+  }
 
   return (
     <>
@@ -55,27 +115,85 @@ const CreateTask = ({ setShowModal }) => {
           <div className={styles.priorityContainer}>
             <p>Select Priority</p>
             {/* ---------radio Buttons----------------------------------------- */}
-            <input
-              type="radio"
-              name="priority"
-              value="High Priority"
-              onChange={(e) => setPriority(e.target.value)}
-            />
-            HIGH PRIORITY
-            <input
-              type="radio"
-              name="priority"
-              value="Moderate Priority"
-              onChange={(e) => setPriority(e.target.value)}
-            />
-            MODERATE PRIORITY
-            <input
-              type="radio"
-              name="priority"
-              value="Low Priority"
-              onChange={(e) => setPriority(e.target.value)}
-            />
-            LOW PRIORITY
+            <div className={styles.prioritybtnContainer}>
+              <div
+                className={styles.radioContainer}
+                style={
+                  priority === "High Priority"
+                    ? { backgroundColor: "#EEECEC" }
+                    : null
+                }
+              >
+                <div
+                  style={{
+                    height: "10px",
+                    width: "10px",
+                    borderRadius: "50%",
+                    backgroundColor: "#FF2473",
+                  }}
+                ></div>
+
+                <input
+                  type="radio"
+                  name="priority"
+                  value="High Priority"
+                  onChange={(e) => setPriority(e.target.value)}
+                />
+                <label>HIGH PRIORITY</label>
+              </div>
+
+              <div
+                className={styles.radioModerateContainer}
+                style={
+                  priority === "Moderate Priority"
+                    ? { backgroundColor: "#EEECEC" }
+                    : null
+                }
+              >
+                <div
+                  style={{
+                    height: "10px",
+                    width: "10px",
+                    borderRadius: "50%",
+                    backgroundColor: "#18B0FF",
+                  }}
+                ></div>
+
+                <input
+                  type="radio"
+                  name="priority"
+                  value="Moderate Priority"
+                  onChange={(e) => setPriority(e.target.value)}
+                />
+                <label>MODERATE PRIORITY</label>
+              </div>
+
+              <div
+                className={styles.radioContainer}
+                style={
+                  priority === "Low Priority"
+                    ? { backgroundColor: "#EEECEC" }
+                    : null
+                }
+              >
+                <div
+                  style={{
+                    height: "10px",
+                    width: "10px",
+                    borderRadius: "50%",
+                    backgroundColor: "#63C05B",
+                  }}
+                ></div>
+
+                <input
+                  type="radio"
+                  name="priority"
+                  value="Low Priority"
+                  onChange={(e) => setPriority(e.target.value)}
+                />
+                <label>LOW PRIORITY</label>
+              </div>
+            </div>
           </div>
           {/* --------------------------CheckList-------------------------------- */}
           <CheckList />
@@ -84,7 +202,17 @@ const CreateTask = ({ setShowModal }) => {
         {/* -------------------------Buttons------------------------------------- */}
         <div className={styles.buttonContainer}>
           {/* ---------------------------Date------------------------------------ */}
-          <input type="date" onChange={(e) => setDueDate(e.target.value)} />
+
+          <div className={styles.btnContainer}>
+            <input type="date" onChange={(e) => setDueDate(e.target.value)} />
+
+            {dueDate === "" ? (
+              <label>Enter Due Date</label>
+            ) : (
+              <label>{slashDueDate}</label>
+            )}
+          </div>
+
           <div className={styles.cancelSaveBtn}>
             {/* -----------------------------Cancel Button----------------------- */}
             <Button
@@ -102,7 +230,7 @@ const CreateTask = ({ setShowModal }) => {
                 width: "10rem",
                 cursor: "pointer",
               }}
-              onClick={() => setShowModal(false)}
+              onClick={handleCancel}
             >
               Cancel
             </Button>

@@ -4,33 +4,51 @@ import React, { useEffect, useState } from "react";
 import DeleteIcon from "../../assets/Icons/DeleteIcon.png";
 import tickIcon from "../../assets/Icons/tickIcon.png";
 import { useTaskContext } from "../../contexts/TaskContext";
+import { useSnackbar } from "notistack";
 
-const CheckList = ({ prevChecklist }) => {
-  
-  const { editedChecklist, setEditedCheckList} = useTaskContext();
-//   console.log(prevChecklist);
+const EditChecklist = ({ prevChecklist }) => {
+  const {enqueueSnackbar} = useSnackbar();
+  const { editedChecklist, setEditedCheckList } = useTaskContext();
+  //   console.log(prevChecklist);
+
   const reqArray = prevChecklist.map((currItem) => {
     return { body: currItem.body, isCompleted: currItem.isCompleted };
   });
 
   useEffect(() => {
     setEditedCheckList(reqArray);
-  }, [])
-  
-//   const [editedChecklist , setEditedCheckList] = useState(reqArray);
-//   console.log(reqArray);
+  }, []);
 
-  console.log(editedChecklist);
+  //Total CheckList Count
+  const totalChecklistCount = editedChecklist.length;
+
+  //Total Completed CheckList Count
+  const totalCompletedChecklistCount = editedChecklist.filter(
+    (currItem) => currItem.isCompleted === true
+  ).length;
+
+  //   const [editedChecklist , setEditedCheckList] = useState(reqArray);
+  //   console.log(reqArray);
+
+  // console.log(editedChecklist);
 
   //function to add a new checkList Item
   const addNewItem = () => {
-    // setCheckListArray((prev) => {
-    //   return [...prev, { body: "", isCompleted: false }];
-    // });
+
+    if (editedChecklist.length >= 1) {
+      const emptyCheckListArray = editedChecklist.filter(
+        (currItem) => currItem.body === ""
+      );
+
+      if (emptyCheckListArray.length > 0) {
+        enqueueSnackbar("CheckList can't be empty");
+        return;
+      }
+    }
 
     setEditedCheckList((prev) => {
-        return [...prev, { body: "", isCompleted: false }];
-    })
+      return [...prev, { body: "", isCompleted: false }];
+    });
   };
 
   //handleDelete Function
@@ -64,10 +82,12 @@ const CheckList = ({ prevChecklist }) => {
   const ShowAllCheckListItems = editedChecklist.map((currItem, index) => {
     return (
       <div key={index} className={styles.listItem}>
-        <div className={styles.checkContainer}>
-          <div className={styles.check} onClick={() => handleChecked(index)}>
-            {currItem.isCompleted ? "X" : ""}
-          </div>
+        <div className={styles.checkBoxContainer}>
+          <input
+            type="checkbox"
+            checked={currItem.isCompleted}
+            onChange={() => handleChecked(index)}
+          />
         </div>
 
         <input
@@ -89,6 +109,10 @@ const CheckList = ({ prevChecklist }) => {
 
   return (
     <div className={styles.checkListContainer}>
+      <h3 className={styles.checklistCount}>
+        Checklist ({totalCompletedChecklistCount}/{totalChecklistCount})
+      </h3>
+
       {ShowAllCheckListItems}
 
       <Button
@@ -107,4 +131,4 @@ const CheckList = ({ prevChecklist }) => {
   );
 };
 
-export default CheckList;
+export default EditChecklist;

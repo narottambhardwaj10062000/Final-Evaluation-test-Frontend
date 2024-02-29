@@ -125,8 +125,8 @@ const Login = () => {
           fontWeight: "400",
           cursor: "pointer",
         }}
-        
-      >
+        onClick={() => navigate("/register")}
+      > 
         Register
       </Button>
 

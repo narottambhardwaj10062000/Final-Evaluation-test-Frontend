@@ -7,7 +7,7 @@ const TaskContext = createContext();
 export const TaskContextProvider = ({ children }) => {
   const [allTasks, setAllTasks] = useState([]);
   // const [backlog, setBacklog] = useState([]);
-  const [userName, setUserName] = useState("xb");
+  const [userName, setUserName] = useState("");
   const [CurrentDate, setCurrentDate] = useState(new Date());
   const [formattedDate, setFormattedDate] = useState("");
 
@@ -16,12 +16,55 @@ export const TaskContextProvider = ({ children }) => {
   const [checkListArray, setCheckListArray] = useState([]);
 
   const [editedChecklist , setEditedCheckList] = useState([]);
+
+  const [backlog, setBacklog] = useState([]);
+  //   const [allTasks, setAllTasks] = useState([]);
+  const [todo, setTodo] = useState([]);
+  const [inProgress, setInProgress] = useState([]);
+  const [done, setDone] = useState([]);
+
+  const setValue = () => {
+    const todoVal = allTasks.filter((currTask) => {
+      return currTask.status === "todo";
+    });
+
+    const backlogVal = allTasks.filter((currTask) => {
+      return currTask.status === "backlog";
+    });
+
+    const progressVal = allTasks.filter((currTask) => {
+      return currTask.status === "progress";
+    });
+
+    const doneVal = allTasks.filter((currTask) => {
+      return currTask.status === "done";
+    });
+
+    setTodo(todoVal);
+    setBacklog(backlogVal);
+    setInProgress(progressVal);
+    setDone(doneVal);
+  };
+
+  //*************************** */
+  // const [checklistToggle, setChecklistToggle] = useState(false);
+  //*************************** */
+
   // console.log(CurrentDate);
   // console.log(formattedDate);
   // console.log(selectedOption);
   // console.log(allTasks);
+  // console.log(editedChecklist);
 
   // FormatDate(CurrentDate);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [])
+
+  useEffect(() => {
+    setValue();
+  }, [allTasks])
 
   useEffect(() => {
     setCurrentDate(new Date());
@@ -57,7 +100,18 @@ export const TaskContextProvider = ({ children }) => {
         checkListArray,
         setCheckListArray,
         editedChecklist,
-        setEditedCheckList
+        setEditedCheckList,
+
+        todo,
+        setTodo, 
+        backlog,
+        setBacklog,
+        inProgress,
+        setInProgress,
+        done,
+        setDone
+        // checklistToggle,
+        // setChecklistToggle
       }}
     >
       {children}

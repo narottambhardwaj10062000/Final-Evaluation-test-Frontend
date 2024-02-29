@@ -31,6 +31,7 @@
     gap: 0.7rem;
     max-height: 377.1px;
     overflow-y: auto;
+    margin-top: 1rem;
 }
 
 .img {
@@ -42,7 +43,7 @@
 
 /* ////check////// */
 
-.checkContainer {
+/* .checkContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,7 +52,7 @@
     padding-right: 1rem;
     position: absolute;
     left: 0%;
-}
+} */
 
 .check {
     height: 50%;
@@ -68,4 +69,32 @@
     /* left: 0.5rem; */
     /* padding-right: 1rem; */
     /* margin-right: 1rem; */
+}
+
+.checklistCount {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 14px;
+    color: black;
+}
+
+/* .createCheckBox {
+    height: 0.5rem;
+    width: 0.5rem;
+} */
+
+.checkBoxContainer {
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    left: 1%;
+}
+
+.checkBoxContainer input{
+    height: 55%;
+    width: 55%;
+    border-radius: 6px;
 }

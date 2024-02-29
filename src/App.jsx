@@ -5,6 +5,8 @@ import LoginPage from './Pages/LoginPage/LoginPage';
 import DashBoard from './Pages/DashBoard/DashBoard';
 import CreateTask from './Pages/CreateTaskPage/CreateTask';
 import { TaskContextProvider } from "./contexts/TaskContext";
+import AnalyticsPage from './Pages/AnalyticsPage/AnalyticsPage';
+import SettingsPage from './Pages/SettingsPage/SettingsPage';
 
 function App() {
 
@@ -15,6 +17,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </BrowserRouter>
     </TaskContextProvider>

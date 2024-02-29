@@ -26,6 +26,7 @@
 }
 
 .checkListContainer {
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
@@ -69,3 +70,27 @@
     /* padding-right: 1rem; */
     /* margin-right: 1rem; */
 }
+
+.checklistCount {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 14px;
+    color: black;
+}
+
+.checkBoxContainer {
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    left: 1%;
+}
+
+.checkBoxContainer input{
+    height: 55%;
+    width: 55%;
+    border-radius: 6px;
+}
+

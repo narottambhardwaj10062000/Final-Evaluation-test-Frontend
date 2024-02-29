@@ -1,81 +1,191 @@
 .wrapper {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(48, 61, 67, 0.55);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(48, 61, 67, 0.55);
+  z-index: 500;
 }
 
 .container {
-    padding: 1rem 1.7rem;
-    width: 666px;
-    min-height: 596px;
-    border-radius: 22px;
-    background-color: #FFFFFF;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 1000;
+  padding: 1rem 1.7rem;
+  width: 666px;
+  min-height: 596px;
+  border-radius: 22px;
+  background-color: #ffffff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
 }
 
 .upperContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .taskTitle {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .titleInput {
-    padding: 0.7rem;
-    border-radius: 4px;
-    border: 1px solid #E2E2E2;
+  padding: 0.7rem;
+  border-radius: 4px;
+  border: 1px solid #e2e2e2;
 }
 
-.titleInput::placeholder{
-    font-family: Inter;
-    font-weight: 400;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    color: #9B959F;
-}
-
-/* Priprity Container */
-.priorityContainer {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.priorityContainer p{
-    font-family: Inter;
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    color: #20102B;
+.titleInput::placeholder {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #9b959f;
 }
 
 /* buttons */
 .buttonContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    /* position: absolute; */
-    /* bottom:0%; */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* position: absolute; */
+  /* bottom:0%; */
 }
 
 .cancelSaveBtn {
-    display: flex;
-    gap: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
+/* *********************************** */
+input[type="date"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 140px;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.btnContainer {
+  width: 185px;
+  height: 45px;
+  border-radius: 12px;
+  border: 1px solid #e2e2e2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnContainer label {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 16px;
+  color: #707070;
+}
+
+/* ************************************************************************** */
+.prioritybtnContainer {
+  /* flex: 0.7; */
+  /* width: 100%; */
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.priorityContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* gap: 0.6rem; */
+}
+
+.priorityContainer p {
+  font-family: Inter;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #20102b;
+}
+
+.radioContainer {
+  position: relative;
+  height: 31px;
+  width: 135px;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  padding: 0.5rem, 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="radio"] {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  /* height: 180px; */
+  /* width: 100%; */
+  cursor: pointer;
+  opacity: 0;
+}
+
+.radioContainer label {
+  /* width: 100%; */
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  color: #767575;
+}
+
+.radioModerateContainer {
+  position: relative;
+  height: 31px;
+  width: 180px;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  padding: 0.5rem, 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.radioModerateContainer label {
+  /* width: 100%; */
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  color: #767575;
+}
+
+.taskTitle label {
+  font-family: Inter;
+  font-weight: 550;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}

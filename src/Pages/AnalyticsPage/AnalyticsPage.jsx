@@ -1,64 +1,53 @@
-import React, { useEffect } from "react";
-// import "./Analytics.css";
-// import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import styles from "./AnalyticsPage.module.css";
+import { useSnackbar } from "notistack";
+import { analytics } from "../../api/task";
 
 export default function AnalyticsPage() {
-  //   const dispatch = useDispatch();
+  const [state, setState] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
-  //   useEffect(() => {
-  //     dispatch({ type: "SELECTED_MENU", payload: "Analytics" });
-  //   });
+  useEffect(() => {
+    async function fun() {
+      const result = await analytics();
+      console.log(result);
+      if (result?.status === 200 || result?.status === 203) {
+        const middleIndex = Math.floor(result?.data?.task.length / 2);
+        const firstHalf = result?.data?.task.slice(0, middleIndex);
+        const secondHalf = result?.data?.task.slice(middleIndex);
 
-  const list1 = [
-    {
-      TaskName: "Backlog Tasks",
-      Number: 16,
-    },
-    {
-      TaskName: "To-do Tasks",
-      Number: 14,
-    },
-    {
-      TaskName: "In-Progress Tasks",
-      Number: 3,
-    },
-    {
-      TaskName: "Completed Tasks",
-      Number: 22,
-    },
-  ];
+        await setState([...state, ...[firstHalf, secondHalf]]);
+
+      }
+      else
+        enqueueSnackbar('Network Error', { variant: 'error' });
+    }
+    fun();
+  }, [])
 
   return (
     <div className={styles.analyticsContainer}>
       <div className={styles.analyticsHeader}>Analytics</div>
       <div className={styles.taskContainer}>
-        <div className={styles.subContainer}>
-          {list1.map((item) => {
+        {
+          state?.map((item, index) => {
             return (
-              <div className={styles.eachTask}>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <i className="fa-solid fa-circle bullet" ></i>
-                  <div className={styles.taskName}>item.TaskName</div>
-                </div>
-                <div className={styles.taskCount}>item.Number</div>
+              <div key={index} className={styles.subContainer}>
+                {item?.map((item) => {
+                  return (
+                    <div className={styles.eachTask}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <div className={styles.singleBullet}></div>
+                        <div className={styles.taskName}>{item.TaskName}</div>
+                      </div>
+                      <div className={styles.taskCount}>{item.Number}</div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-        <div className={styles.subContainer}>
-          {list1.map((item) => {
-            return (
-              <div className={styles.eachTask}>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <i className="fa-solid fa-circle bullet"></i>
-                  <div className={styles.taskName}>item.TaskName</div>
-                </div>
-                <div className={styles.taskCount}>item.Number</div>
-              </div>
-            );
-          })}
-        </div>
+            )
+          })
+        }
       </div>
     </div>
   );

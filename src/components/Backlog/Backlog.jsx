@@ -4,9 +4,7 @@ import { VscCollapseAll } from "react-icons/vsc";
 import Card from "../Card/Card";
 
 const Backlog = ({ backlog }) => {
-  // console.log(statusName);
-  // console.log(typeof statusName);
-  
+  const [collapseAllState, setCollapseAllState] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -16,6 +14,7 @@ const Backlog = ({ backlog }) => {
         <div className={styles.iconContainer}>
           <VscCollapseAll
             style={{ cursor: "pointer" }}
+            onClick={() => setCollapseAllState(!collapseAllState)}
           />
         </div>
       </div>
@@ -28,6 +27,7 @@ const Backlog = ({ backlog }) => {
               key={currCard._id}
               {...currCard}
               statusName="backlog"
+              collapseAllState={collapseAllState}
             />
           );
         })}

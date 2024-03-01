@@ -5,12 +5,9 @@ import DeleteIcon from "../../assets/Icons/DeleteIcon.png";
 import { useTaskContext } from "../../contexts/TaskContext";
 import { useSnackbar } from "notistack";
 
-
 const CheckList = () => {
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { checkListArray, setCheckListArray } = useTaskContext();
-
-  // console.log(checkListArray);
 
   const totalChecklistCount = checkListArray.length;
   const totalCompletedChecklistCount = checkListArray.filter(
@@ -19,9 +16,11 @@ const CheckList = () => {
 
   //function to add a new checkList Item
   const addNewItem = () => {
-    if(checkListArray.length >= 1) {
-      const emptyCheckListArray =  checkListArray.filter((currItem) => currItem.body === "")
-      if( emptyCheckListArray.length > 0) {
+    if (checkListArray.length >= 1) {
+      const emptyCheckListArray = checkListArray.filter(
+        (currItem) => currItem.body === ""
+      );
+      if (emptyCheckListArray.length > 0) {
         enqueueSnackbar("Checklist can't be empty");
         return;
       }
@@ -63,7 +62,6 @@ const CheckList = () => {
   const ShowAllCheckListItems = checkListArray.map((currItem, index) => {
     return (
       <div key={index} className={styles.listItem}>
-
         <div className={styles.checkBoxContainer}>
           <input
             type="checkbox"
@@ -93,6 +91,7 @@ const CheckList = () => {
     <div className={styles.checkListContainer}>
       <h3 className={styles.checklistCount}>
         Checklist ({totalCompletedChecklistCount}/{totalChecklistCount})
+        <span className={styles.star}>*</span>
       </h3>
       {ShowAllCheckListItems}
 

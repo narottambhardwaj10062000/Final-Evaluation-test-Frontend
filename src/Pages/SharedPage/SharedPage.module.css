@@ -1,0 +1,162 @@
+.taskContainer1{
+    width: 600px;
+    border-radius: 10px;
+    border: 2px solid #edf5fe;
+    padding: 60px 0px;
+    padding-left: 30px;
+    padding-right: 5px;
+    margin: 20px;
+}
+
+.taskHeader i{
+    color: #ff2473;
+    font-size: 10px;
+    margin-right: 5px;
+}
+
+.taskPriority{
+    font-size: 10px;
+    color: #989898;
+}
+
+.taskTitle{
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 22px;
+    color: #000000;
+}
+
+.checklistCount{
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 14px;
+    color: #000000;
+}
+
+.taskChecklist{
+    max-height: 400px;
+    overflow-y: scroll;
+    margin: 20px 0;
+}
+
+.checklist{
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #c5c5c5;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.checklist:nth-last-child(1){
+    margin-bottom: 0;
+}
+
+.checklist input{
+    height: 18px ;
+    width: 18px ;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: 1px solid rgb(204, 204, 204);
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.1);
+}
+
+.taskDuedate{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.duedate{
+    font-weight: 600;
+    margin-right: 20px;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    color: #000000;
+}
+
+.duedateTag{
+    background-color: #cf3636;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+    font-size: 15px;
+}
+
+.bullet {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
+
+.bulletContainer {
+    display: flex;
+    gap: 0.5rem;
+}
+.bulletContainer p {
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 8px;
+    color: #707070;
+    /* font-style: uppercase; */
+    text-transform: uppercase;
+    align-items: center;
+}
+.dateContainer {
+    padding: 5px, 10px, 5px, 10px;
+    border-radius: 8px;
+    height: 32px;
+    min-width: 78px;
+    background-color: #CF3636;
+    color: #FFFFFF;
+    font: Poppins;
+    fon-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cornerContainer {
+    width: 149px;
+    height: 39px;
+    position: absolute;
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    top: 32px;
+    left: 43px;
+}
+
+
+.cornerContainer h3 {
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000000;
+}
+
+@media (max-width: 600px) {
+    .taskContainer1{
+        width: 350px;
+        padding-top: 25px;
+        padding-bottom: 50px;
+        padding-left: 25px;
+        padding-right: 7px;
+        border-radius: 20px;
+    }
+    .checklist{
+        margin-bottom: 15px;
+        margin-right: 10px;
+    }
+    .taskChecklist{
+        margin: 15px 0;
+    }
+}

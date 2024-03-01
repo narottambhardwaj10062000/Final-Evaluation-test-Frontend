@@ -18,15 +18,16 @@ export const createNewTask = async ({ title, checkListArray, priority, dueDate }
 
   } catch (error) {
     // console.log(error);
-    
+
   }
 };
 
 //Getting all tasks from backend
-export const getTasksList = async ( selectedOption ) => {
+
+export const getTasksList = async ( selectedFilter ) => {
+  const filter = selectedFilter;
   try {
-    // console.log(selectedOption);
-    const reqUrl = `${backend_Url}/task/all?filter=${selectedOption}`;
+    const reqUrl = `${backend_Url}/task/alltask/${filter}`;
 
     const token = JSON.parse(localStorage.getItem("Token"));
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -103,5 +104,28 @@ export const handleChangeCheckList = async(taskId, checkboxId, state) => {
     return response;
   } catch ( error ) {
     console.log(error);
+  }
+}
+
+//Analytics
+export const analytics = async () => {
+  try {
+    //setting header
+    const token = JSON.parse(localStorage.getItem("Token"));
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    const result = await axios.get(`${backend_Url}/task/analytics`);
+    return result;
+  } catch (error) {
+    return error?.response;
+  }
+}
+
+//Shared Task
+export const sharedTask = async (id) => {
+  try {
+      const result = await axios.get(`${backend_Url}/task/share/${id}`);
+      return result;
+  } catch (error) {
+      return error?.response;
   }
 }

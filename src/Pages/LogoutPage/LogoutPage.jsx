@@ -6,16 +6,12 @@ import { useTaskContext } from "../../contexts/TaskContext";
 
 
 const LogoutPage = ({ setShowLogoutModal }) => {
-
-    // const { setAllTasks } = useTaskContext();
-
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem("Name");
         localStorage.removeItem("Token");
         setShowLogoutModal(false);
-        // setAllTasks([]);
         navigate("/login");
     }
 

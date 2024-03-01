@@ -6,6 +6,14 @@
     width: 70%;
 }
 
+.title{
+    font-family: Open Sans;
+    font-weight: 600;
+    font-size: 33px;
+    color: rgba(52, 52, 52, 1);
+    margin-bottom: 3rem;
+}
+
 .input {
     width: 100%;
     padding: 1rem;
@@ -29,6 +37,7 @@
     align-items: center;
     justify-content: center;
     padding: 0rem 0.5rem;
+    /* left: 3.5%; */
 }
 
 .icon {
@@ -39,4 +48,15 @@
 p {
     color: #828282;
     font-family: Open Sans;
+}
+
+.passwordToggleContainer {
+    position: absolute;
+    right: 1.5%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    color: #828282;
 }

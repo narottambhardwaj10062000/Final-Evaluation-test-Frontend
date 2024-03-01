@@ -6,16 +6,14 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import { handleUserLogin } from "../../api/auth";
 import { useTaskContext } from "../../contexts/TaskContext";
+import { LuEye } from "react-icons/lu";
+import { LuEyeOff } from "react-icons/lu";
+import { useSnackbar } from "notistack";
 
 const Login = () => {
+  const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
-
-  //modal related needs to be removed !!!!!!!!!
-  
-
-  // const closeModal = () => {
-  //   return setShowModal(false);
-  // };
+  const [visible,setVisible]=useState(false);
 
   const [data, setData] = useState({
     email: "",
@@ -24,39 +22,42 @@ const Login = () => {
 
   const { setUserName } = useTaskContext();
 
-  // console.log(data);
-
   const handleChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
-
-  // const redirectToRegisterPage = () => {
-  //     navigate("/register");
-  //     navigate("/create");
-  // }
 
   //Function to handle Login
   const handleLogin = async () => {
     //validation
     if (!data.email || !data.password) {
-      alert("please fill in all details");
+      enqueueSnackbar("Please Fill all in all the fields", {variant: "warning"});
       return;
     }
     const response = await handleUserLogin({ ...data });
     // console.log(response);
-    
-    if (response) {
-      localStorage.setItem("Token", JSON.stringify(response.token));
-      localStorage.setItem("Name", JSON.stringify(response.name));
+
+    if (response?.status === 200) {
+      enqueueSnackbar("Login Successful",{variant: "success"});
+      localStorage.setItem("Token", JSON.stringify(response?.data?.token));
+      localStorage.setItem("Name", JSON.stringify(response?.data?.name));
       // console.log(response);
-      setUserName(response.name);
-      navigate("/dashboard");
+      setUserName(response?.data?.name);
+      navigate("/");
+    }
+    else if(response?.status === 400) {
+      enqueueSnackbar(response?.data?.errorMessage, { variant: 'error' });
+    }
+    else if(response?.status === 401) {
+      enqueueSnackbar(response?.data?.errorMessage, { variant: 'error' });
+    }
+    else{
+      enqueueSnackbar("Network Error", { variant: 'error' });
     }
   };
 
   return (
     <div className={styles.container}>
-      <h3>Login</h3>
+      <h3 className={styles.title}>Login</h3>
       {/* ------------------------------Email-----------------------------*/}
       <div className={styles.inputContainer}>
         <div className={styles.iconContainer}>
@@ -79,13 +80,24 @@ const Login = () => {
         </div>
 
         <input
-          type="password"
+          type={visible ? "text": "password"}
           className={styles.input}
           name="password"
           placeholder="Password"
           value={data.password}
           onChange={handleChange}
         />
+
+        <div
+          className={styles.passwordToggleContainer}
+          onClick={() => setVisible(!visible)}
+        >
+          {visible ? (
+            <LuEyeOff style={{ height: "25px", width: "25px" }} />
+          ) : (
+            <LuEye style={{ height: "25px", width: "25px" }} />
+          )}
+        </div>
       </div>
 
       {/* ----------------Login Button---------------------------- */}
@@ -126,10 +138,9 @@ const Login = () => {
           cursor: "pointer",
         }}
         onClick={() => navigate("/register")}
-      > 
+      >
         Register
       </Button>
-
     </div>
   );
 };

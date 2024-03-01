@@ -47,3 +47,39 @@
   flex-direction: column;
   gap: 0.7rem;
 }
+
+
+/* ***************************************************************** */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc; 
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+
+input[type="checkbox"]:checked {
+  background-color: #17A2B8; 
+  border-color: #17A2B8; 
+}
+
+
+input[type="checkbox"]:checked::before {
+  content: '\2714'; 
+  font-size: 14px;
+  color: #fff; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Set white background color when checkbox is unchecked */
+input[type="checkbox"]:not(:checked) {
+  background-color: #fff; /* Set background color to white */
+}

@@ -1,12 +1,18 @@
 .settingContainer{
-    margin: 10px;
+    margin-top: 20px;
+    margin-left: 30px;
 }
 .settingHeader{
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: Open Sans;
+    color: #000000;
 }
 .settingForm{
-    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-top: 50px;
     width: 400px;
 }
 
@@ -19,4 +25,61 @@
     border: 0;
     font-size: 15px;
     cursor: pointer;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.inputContainer input{
+    width: 493px;
+    height: 55px;
+    border-radius: 11px;
+    border: 1.38px solid #D0D0D0;
+    /* float: right; */
+    outline: none;
+    padding-left: 12%;
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+}
+
+.passwordToggleContainer {
+    position: absolute;
+    right: -19.5%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    color: #828282;
+    top:0%
+}
+
+.inputContainer input::placeholder{
+    font-family: Open Sans;
+    font-weight: 400;
+    font-size: 19px;
+    color: #828282;
+}
+/* **************************************************** */
+.icon {
+    width: 29.5px;
+    height: 29.5px;
+    color: #828282;
+}
+
+.singleInputContainer {
+    position: relative;
+}
+
+.iconContainer {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12%;
 }

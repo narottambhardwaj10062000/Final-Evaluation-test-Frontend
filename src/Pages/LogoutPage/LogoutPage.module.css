@@ -5,6 +5,7 @@
     left: 0;
     right: 0;
     background-color: rgba(48, 61, 67, 0.55);
+    z-index: 500;
 }
 
 .container {
@@ -20,6 +21,7 @@
     flex-direction: column;
     gap: 2.4rem;
     align-items: center;
+    z-index: 500;
 }
 
 .container p {

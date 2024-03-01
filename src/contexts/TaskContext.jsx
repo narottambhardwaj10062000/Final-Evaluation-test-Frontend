@@ -5,66 +5,17 @@ import { FormatDate } from "../Helpers/FormatDate";
 const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
-  const [allTasks, setAllTasks] = useState([]);
-  // const [backlog, setBacklog] = useState([]);
   const [userName, setUserName] = useState("");
   const [CurrentDate, setCurrentDate] = useState(new Date());
   const [formattedDate, setFormattedDate] = useState("");
-
-  const [selectedOption, setSelectedOption] = useState("This Week");
-
+  const [selectedFilter, setSelectedFilter] = useState("week");
   const [checkListArray, setCheckListArray] = useState([]);
-
-  const [editedChecklist , setEditedCheckList] = useState([]);
-
+  const [editedChecklist, setEditedCheckList] = useState([]);
   const [backlog, setBacklog] = useState([]);
-  //   const [allTasks, setAllTasks] = useState([]);
   const [todo, setTodo] = useState([]);
   const [inProgress, setInProgress] = useState([]);
   const [done, setDone] = useState([]);
-
-  const setValue = () => {
-    const todoVal = allTasks.filter((currTask) => {
-      return currTask.status === "todo";
-    });
-
-    const backlogVal = allTasks.filter((currTask) => {
-      return currTask.status === "backlog";
-    });
-
-    const progressVal = allTasks.filter((currTask) => {
-      return currTask.status === "progress";
-    });
-
-    const doneVal = allTasks.filter((currTask) => {
-      return currTask.status === "done";
-    });
-
-    setTodo(todoVal);
-    setBacklog(backlogVal);
-    setInProgress(progressVal);
-    setDone(doneVal);
-  };
-
-  //*************************** */
-  // const [checklistToggle, setChecklistToggle] = useState(false);
-  //*************************** */
-
-  // console.log(CurrentDate);
-  // console.log(formattedDate);
-  // console.log(selectedOption);
-  // console.log(allTasks);
-  // console.log(editedChecklist);
-
-  // FormatDate(CurrentDate);
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [])
-
-  useEffect(() => {
-    setValue();
-  }, [allTasks])
+  const [activeUserName, setActiveUserName] = useState("");
 
   useEffect(() => {
     setCurrentDate(new Date());
@@ -73,45 +24,55 @@ export const TaskContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem("Name", JSON.stringify(activeUserName));
+    setUserName(activeUserName);
+  }, [activeUserName]);
+
+  useEffect(() => {
     const val = FormatDate(CurrentDate);
     setFormattedDate(val);
   }, [CurrentDate]);
 
   useEffect(() => {
     fetchData();
-  }, [selectedOption]);
+  }, [selectedFilter]);
 
   //function to fetch tasks from backend
   const fetchData = async () => {
-    const response = await getTasksList(selectedOption);
-    setAllTasks(response.data);
+    const response = await getTasksList(selectedFilter);
+
+    setActiveUserName(response.name);
+    // console.log(response.name)
+    setTodo(response.task.todo);
+    setInProgress(response.task.progress);
+    setDone(response.task.done);
+    setBacklog(response.task.backlog);
   };
 
   return (
     <TaskContext.Provider
       value={{
         fetchData,
-        allTasks,
         setUserName,
         userName,
         formattedDate,
-        selectedOption,
-        setSelectedOption,
+        selectedFilter,
+        setSelectedFilter,
         checkListArray,
         setCheckListArray,
         editedChecklist,
         setEditedCheckList,
+        activeUserName,
+        setActiveUserName,
 
         todo,
-        setTodo, 
+        setTodo,
         backlog,
         setBacklog,
         inProgress,
         setInProgress,
         done,
-        setDone
-        // checklistToggle,
-        // setChecklistToggle
+        setDone,
       }}
     >
       {children}

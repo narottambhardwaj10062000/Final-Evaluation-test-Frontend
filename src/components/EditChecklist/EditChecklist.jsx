@@ -7,9 +7,8 @@ import { useTaskContext } from "../../contexts/TaskContext";
 import { useSnackbar } from "notistack";
 
 const EditChecklist = ({ prevChecklist }) => {
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { editedChecklist, setEditedCheckList } = useTaskContext();
-  //   console.log(prevChecklist);
 
   const reqArray = prevChecklist.map((currItem) => {
     return { body: currItem.body, isCompleted: currItem.isCompleted };
@@ -27,14 +26,8 @@ const EditChecklist = ({ prevChecklist }) => {
     (currItem) => currItem.isCompleted === true
   ).length;
 
-  //   const [editedChecklist , setEditedCheckList] = useState(reqArray);
-  //   console.log(reqArray);
-
-  // console.log(editedChecklist);
-
   //function to add a new checkList Item
   const addNewItem = () => {
-
     if (editedChecklist.length >= 1) {
       const emptyCheckListArray = editedChecklist.filter(
         (currItem) => currItem.body === ""
@@ -111,6 +104,7 @@ const EditChecklist = ({ prevChecklist }) => {
     <div className={styles.checkListContainer}>
       <h3 className={styles.checklistCount}>
         Checklist ({totalCompletedChecklistCount}/{totalChecklistCount})
+        <span className={styles.star}>*</span>
       </h3>
 
       {ShowAllCheckListItems}

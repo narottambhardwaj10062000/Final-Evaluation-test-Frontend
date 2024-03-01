@@ -1,31 +1,38 @@
 import styles from "./CardCheckList.module.css";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { CiSquareChevDown } from "react-icons/ci";
 import { CiSquareChevUp } from "react-icons/ci";
 import { handleChangeCheckList } from "../../api/task";
-// import SingleCheckList from "../SingleChecklist/SingleCheckList";
+import { useTaskContext } from "../../contexts/TaskContext";
 
-const CardCheckList = ({ checkList, _id }) => {
-
-  // console.log(checkList);
+const CardCheckList = ({ checkList, _id, collapseAllState }) => {
+  const { fetchData } = useTaskContext();
   const [cardCheckList, setCardChecklist] = useState(checkList);
-
-  useEffect(() => {
-    setCardChecklist(checkList)
-  }, [])
-
-  // console.log(cardCheckList)
-
   const [checklistToggle, setChecklistToggle] = useState(false);
 
+  useEffect(() => {
+    setCardChecklist(checkList);
+  }, [checkList]);
+
+  useEffect(() => {
+    setChecklistToggle(checklistToggle ? false : false);
+  }, [collapseAllState]);
+
+  const handleChecklistValueToggle = async (taskId, checklistId, value) => {
+    const response = await handleChangeCheckList(taskId, checklistId, value);
+    console.log(response);
+    if (response.status === 200) {
+      setCardChecklist(response.data.checklist);
+    }
+  };
+
   //total checklist count
-  const totalChecklistCount = cardCheckList.length;
+  const totalChecklistCount = cardCheckList?.length;
 
   //total completed checklist count
-  const totalChecklistCompleted = cardCheckList.filter(
+  const totalChecklistCompleted = cardCheckList?.filter(
     (currItem) => currItem.isCompleted === true
   ).length;
-
 
   return (
     <div className={styles.checkListContainer}>
@@ -64,50 +71,22 @@ const CardCheckList = ({ checkList, _id }) => {
         style={checklistToggle ? { display: "flex" } : { display: "none" }}
       >
         {cardCheckList.map((currItem, index) => {
-          {
-            /* useEffect(() => {
-          setIsCompleted(currItem.isCompleted);
-        }, []); */
-          }
-          {/* const [IsCompleted, setIsCompleted] = useState(currItem.isCompleted); */}
-
-          {
-            /* console.log(IsCompleted); */
-          }
-
-          {/* const handleChecklistValueToggle = async () => {
-            setIsCompleted(!IsCompleted);
-            const response = await handleChangeCheckList(
-              _id,
-              currItem._id,
-              IsCompleted
-            );
-            if (response) {
-              fetchData();
-            } */}
-
-            {
-              /* console.log(response); */
-            }
-          {/* }; */}
-
-          {
-            /* useEffect(() => {
-          handleChecklistValueToggle();
-        }, [IsCompleted]); */
-          }
-
           return (
             <div key={index} className={styles.checklist}>
               <input
                 type="checkbox"
                 checked={currItem.isCompleted}
-                // onChange={() => setIsCompleted(!IsCompleted)}
+                onChange={() =>
+                  handleChecklistValueToggle(
+                    _id,
+                    currItem._id,
+                    !currItem.isCompleted
+                  )
+                }
               />
               <span>{currItem.body}</span>
             </div>
           );
-          
         })}
       </div>
     </div>

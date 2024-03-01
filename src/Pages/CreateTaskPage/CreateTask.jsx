@@ -8,8 +8,7 @@ import { showSlashFormatDueDate } from "../../Helpers/FormatDate";
 import { useSnackbar } from "notistack";
 
 const CreateTask = ({ setShowModal }) => {
-
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [priority, setPriority] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [title, setTitle] = useState("");
@@ -33,12 +32,14 @@ const CreateTask = ({ setShowModal }) => {
   const handleCreateTask = async () => {
     //validation
     if (!title || !priority) {
-      enqueueSnackbar("Please fill in all mandatory fields");
+      enqueueSnackbar("Please fill in all mandatory fields", {
+        variant: "warning",
+      });
       return;
     }
 
     if (checkListArray.length === 0) {
-      enqueueSnackbar("CheckList is a mandatory field");
+      enqueueSnackbar("CheckList is a mandatory field", { variant: "warning" });
       return;
     }
 
@@ -47,7 +48,7 @@ const CreateTask = ({ setShowModal }) => {
         (currItem) => currItem.body === ""
       );
       if (emptyCheckListArray.length > 0) {
-        enqueueSnackbar("CheckLists cant be empty");
+        enqueueSnackbar("CheckLists cant be empty", { variant: "warning" });
         return;
       }
     }
@@ -63,15 +64,14 @@ const CreateTask = ({ setShowModal }) => {
       });
 
       if (response) {
-        //task added successfully
-        enqueueSnackbar("Task Added Successfully");
+        enqueueSnackbar("Task Added Successfully", { variant: "success" });
         fetchData();
         setCheckListArray([]);
         setShowModal(false);
       }
     }
 
-    if( dueDate === "") {
+    if (dueDate === "") {
       const response = await createNewTask({
         title,
         checkListArray,
@@ -79,19 +79,13 @@ const CreateTask = ({ setShowModal }) => {
       });
 
       if (response) {
-        // alert("Task Added Successfully");
-        enqueueSnackbar("Task Added Successfully");
+        enqueueSnackbar("Task Added Successfully", { variant: "success" });
         fetchData();
         setCheckListArray([]);
         setShowModal(false);
       }
     }
-    
-
-    // console.log(response.data);
-    //Success Message on task addition
-    
-  }
+  };
 
   return (
     <>
@@ -101,7 +95,9 @@ const CreateTask = ({ setShowModal }) => {
         <div className={styles.upperContainer}>
           {/* -------------------Task Title----------------------------------- */}
           <div className={styles.taskTitle}>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">
+              Title<span className={styles.star}>*</span>
+            </label>
             <input
               type="text"
               placeholder="Enter Task Title"
@@ -113,7 +109,9 @@ const CreateTask = ({ setShowModal }) => {
           </div>
           {/* --------------------------Select Priority------------------------ */}
           <div className={styles.priorityContainer}>
-            <p>Select Priority</p>
+            <p>
+              Select Priority<span className={styles.star}>*</span>
+            </p>
             {/* ---------radio Buttons----------------------------------------- */}
             <div className={styles.prioritybtnContainer}>
               <div

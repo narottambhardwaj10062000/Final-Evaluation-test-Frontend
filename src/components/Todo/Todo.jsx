@@ -6,8 +6,8 @@ import Card from "../Card/Card";
 import CreateTask from "../../Pages/CreateTaskPage/CreateTask";
 
 const Todo = ({ todo }) => {
-  // console.log(todo);
   const [showModal, setShowModal] = useState(false);
+  const [collapseAllState, setCollapseAllState] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -19,14 +19,24 @@ const Todo = ({ todo }) => {
             onClick={() => setShowModal(true)}
             style={{ cursor: "pointer" }}
           />
-          <VscCollapseAll style={{ cursor: "pointer" }} />
+          <VscCollapseAll
+            style={{ cursor: "pointer" }}
+            onClick={() => setCollapseAllState(!collapseAllState)}
+          />
         </div>
       </div>
 
       {/* cards will be rendered here*/}
       <div className={styles.cardContainer}>
         {todo.map((currCard) => {
-          return <Card key={currCard._id} {...currCard} statusName="todo" />;
+          return (
+            <Card
+              key={currCard._id}
+              {...currCard}
+              statusName="todo"
+              collapseAllState={collapseAllState}
+            />
+          );
         })}
       </div>
 

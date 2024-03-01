@@ -3,13 +3,16 @@
 }
 
 .analyticsHeader{
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+    font-family: Open Sans;
+
 }
 
 .taskContainer{
     display: flex;
-    margin-top: 30px;
+    margin-top: 4rem;
 }
 
 .subContainer{
@@ -27,8 +30,11 @@
 }
 
 .taskName{
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: Open Sans;
+    color: #000000;
+
 }
 
 .taskCount{
@@ -40,4 +46,12 @@
     margin-right: 13px;
     font-size: 9px !important;
     text-align: center;
+}
+
+.singleBullet{
+    height: 12px;
+    width: 12px;
+    background-color: #90C4CC;
+    border-radius: 50%;
+    margin-right: 13px;
 }

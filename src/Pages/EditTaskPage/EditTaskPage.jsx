@@ -9,24 +9,17 @@ import { showSlashFormatDueDate } from "../../Helpers/FormatDate";
 import { useSnackbar } from "notistack";
 
 const EditTaskPage = ({ setShowModal, prefillData }) => {
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { _id, title, checkList, priority, dueDate, status } = prefillData;
   const [slashDueDate, setSlashDueDate] = useState("");
   const taskId = _id;
 
-  // const { fetchData, checkListArray } = useTaskContext();
-  // console.log(checkList);
   const { fetchData, editedChecklist, setEditedCheckList } = useTaskContext();
 
   const [editPriority, setEditPriority] = useState(priority);
   const [editDueDate, setEditDueDate] = useState(dueDate);
-  console.log(editDueDate);
   const [editTitle, setEditTitle] = useState(title);
-  // const [editCheckList, setEditCheckList] = useState(checkList);
-  // const { fetchData, editedChecklist } = useTaskContext();
-  // const [editCheckList, setEditCheckList] = useState();
-
-  //   console.log(prefillData);
+  const [editCheckList, setEditCheckList] = useState(checkList);
 
   if (editDueDate !== undefined) {
     useEffect(() => {
@@ -48,8 +41,10 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
     }
 
     if (editedChecklist.length > 0) {
-      const emptyCheckListArray = editedChecklist.filter((currItem) => currItem.body === "");
-        
+      const emptyCheckListArray = editedChecklist.filter(
+        (currItem) => currItem.body === ""
+      );
+
       if (emptyCheckListArray.length > 0) {
         enqueueSnackbar("CheckLists cant be empty");
         return;
@@ -65,10 +60,7 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
         editDueDate,
       });
       if (response) {
-        // alert("Task Edit Successfull");
         enqueueSnackbar("Task Edit Successfull");
-        // console.log(response);
-
         setEditedCheckList([]);
         fetchData();
         setShowModal(false);
@@ -83,8 +75,6 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
 
       if (response) {
         enqueueSnackbar("Task Edit Successfull");
-        // console.log(response);
-
         setEditedCheckList([]);
         fetchData();
         setShowModal(false);
@@ -100,7 +90,9 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
         <div className={styles.upperContainer}>
           {/* -------------------Task Title----------------------------------- */}
           <div className={styles.taskTitle}>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">
+              Title<span className={styles.star}>*</span>
+            </label>
             <input
               type="text"
               placeholder="Enter Task Title"
@@ -112,7 +104,9 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
           </div>
           {/* --------------------------Select Priority------------------------ */}
           <div className={styles.priorityContainer}>
-            <p>Select Priority</p>
+            <p>
+              Select Priority<span className={styles.star}>*</span>
+            </p>
             {/* ---------radio Buttons----------------------------------------- */}
             <div className={styles.prioritybtnContainer}>
               <div
@@ -202,7 +196,6 @@ const EditTaskPage = ({ setShowModal, prefillData }) => {
         {/* -------------------------Buttons------------------------------------- */}
         <div className={styles.buttonContainer}>
           {/* ---------------------------Date------------------------------------ */}
-          {/* <input type="date" onChange={(e) => setEditDueDate(e.target.value)} /> */}
 
           <div className={styles.btnContainer}>
             <input

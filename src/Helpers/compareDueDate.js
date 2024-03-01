@@ -1,23 +1,3 @@
-// export const compareDueDate = (day, month, year, dueDay, dueMonth, dueYear) => {
-//   if (dueYear > year) {
-//     return "#DBDBDB";
-//   } else if (dueYear < year) {
-//     return "#CF3636";
-//   } else {
-//     if (dueMonth > month) {
-//       return "#DBDBDB";
-//     } else if (dueMonth < month) {
-//       return "#CF3636";
-//     } else {
-//       if (dueDay >= day) {
-//         return "#DBDBDB";
-//       } else {
-//         return "#CF3636";
-//       }
-//     }
-//   }
-// };
-
 export const compareDueDate = (date, dueDate, status) => {
   var day = date.getDate();
   var month = date.getMonth() + 1;
